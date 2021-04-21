@@ -22,15 +22,6 @@ export const signOut = () => {
   };
 };
 
-export const newStream = (formSubmitValue) => {
-  const api = async (dispatch) => {
-    stream.post("/streams", formSubmitValue);
-    dispatch({ type: CREATE_STREAM, payload: response.data });
-  };
-
-  return api();
-};
-
 export const fetchStreams = () => async (dispatch) => {
   const response = await stream.post("/streams");
   dispatch({ type: FETCH_STREAMS, payload: response.data });
@@ -51,7 +42,17 @@ export const deleteStream = (id) => async (dispatch) => {
   dispatch({ type: DELETE_STREAM, payload: id });
 };
 
-// export const testStream = (formSubmitValue) => async (dispatch) => {
-//   const response = await stream.post("/streams", formSubmitValue);
-//   dispatch({ type: CREATE_STREAM, payload: response.data });
+// export const newStream = (formSubmitValue) => {
+//   const api = async (dispatch) => {
+//     const response = await stream.post("/streams", formSubmitValue);
+//     dispatch({ type: CREATE_STREAM, payload: response.data });
+//   };
+
+//   return api();
 // };
+
+// formSubmitValue在第二層無法讀取
+export const newStream = (formSubmitValue) => async (dispatch) => {
+  const response = await stream.post("/streams", formSubmitValue);
+  dispatch({ type: CREATE_STREAM, payload: response.data });
+};
